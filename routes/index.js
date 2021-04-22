@@ -4,14 +4,14 @@ const { DATABASE_URL } = process.env;
 
 var router = express.Router();
 
-//const pool = new Pool({
-//  connectionString: DATABASE_URL,
-//    ssl: {
-//    rejectUnauthorized: false
-//  }
-//});
+const pool = new Pool({
+  connectionString: DATABASE_URL,
+    ssl: {
+    rejectUnauthorized: false
+  }
+});
 
-const { Client } = require('pg');
+/*const { Client } = require('pg');
 
 const client = new Client({
   connectionString: process.env.DATABASE_URL,
@@ -19,26 +19,20 @@ const client = new Client({
     rejectUnauthorized: false
   }
 });
-
-
-
+*/
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  console.log('routing in index');
-  client.connect();
-
-  client.query('SELECT firstname,lastname FROM salesforce.lead;', (err, res) => {
+  console.log('routing in again index');
+  pool.query(`SELECT * FROM salesforce.lead;`, (err, res) => {
     if (err) {
-      console.log('widd');
-      console.log(err.stack);
-    } else {  
-      for (let row of res.rows) {
-        console.log(JSON.stringify(row));
-      }
+        console.log("Error - Failed to select all from Users");
+        console.log(err);
     }
-    client.end();
-  });  
+    else{
+        console.log(res.rows);
+    }
+  }); 
   
   res.render('locator', {success: false});
 });
