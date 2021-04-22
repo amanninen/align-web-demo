@@ -15,6 +15,13 @@ const pool = new Pool({
 router.get('/', function(req, res, next) {
   console.log('routing in once again index');
 
+  pool.query(`INSERT INTO salesforce.lead(FirstName,LastName,Company)VALUES($1,$2,$3)`, 
+            ['Ari-Pekka','Manninen','Invisaling'], (err, res) => {
+    if (err) {
+        console.log("Error - Failed to insert data into Leads");
+        console.log(err);
+    }
+  });
   res.render('locator', {success: false});
 });
 
