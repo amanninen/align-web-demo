@@ -1,15 +1,34 @@
 var express = require('express');
-const { Pool } = require('pg');
+//const { Pool } = require('pg');
 const { DATABASE_URL } = process.env;
 
 var router = express.Router();
 
-const pool = new Pool({
-  connectionString: DATABASE_URL,
-    ssl: {
+//const pool = new Pool({
+//  connectionString: DATABASE_URL,
+//    ssl: {
+//    rejectUnauthorized: false
+//  }
+//});
+const { Client } = require('pg');
+
+const client = new Client({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
     rejectUnauthorized: false
   }
 });
+
+client.connect();
+
+client.query('SELECT firstname,lastname FROM salesforce.lead;', (err, res) => {
+  if (err) throw err;
+  for (let row of res.rows) {
+    console.log(JSON.stringify(row));
+  }
+  client.end();
+});
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
