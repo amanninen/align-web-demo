@@ -28,7 +28,7 @@ router.get('/', function(req, res, next) {
   client.connect();
 
   client.query('SELECT firstname,lastname FROM salesforce.lead;', (err, res) => {
-    if (err) throw err;
+    //if (err) throw err;
       for (let row of res.rows) {
         console.log(JSON.stringify(row));
       }
