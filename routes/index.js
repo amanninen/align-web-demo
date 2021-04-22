@@ -30,7 +30,6 @@ router.post('/leadform', async function (req, res, next) {
         console.log(err);
     }
   });
-  console.log(res2);
   res.render('locator', { success: true });
 });
 
