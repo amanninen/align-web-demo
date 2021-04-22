@@ -13,12 +13,12 @@ const pool = new Pool({
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  console.log('routing in once again index');
+  console.log('routing again index');
 
   pool.query(`INSERT INTO salesforce.lead(FirstName,LastName,Company)VALUES($1,$2,$3)`, 
             ['Ari-Pekka','Manninen','Invisaling'], (err, res) => {
     if (err) {
-        console.log("Error - Failed to insert data into Leads");
+        console.log("Error - Failed to insert data into ccLeads");
         console.log(err);
     }
   });
