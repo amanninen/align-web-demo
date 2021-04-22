@@ -14,7 +14,7 @@ const pool = new Pool({
 /* GET home page. */
 router.get('/', function(req, res, next) {
   console.log('routing in once again index');
-  console.log(pool);
+  /*console.log(pool);
   pool.query('SELECT * FROM salesforce.lead;', (err, res) => {
     if (err) {
         console.log("Error - Failed to select all from leads");
@@ -25,16 +25,16 @@ router.get('/', function(req, res, next) {
         console.log(res.rows);
     }
   }); 
-  
+  */
   res.render('locator', {success: false});
 });
 
 /* form handling */
 router.post('/leadform', async function (req, res, next) {
-  console.log('routing on post form f');
+  console.log('routing on post form with updated code');
   console.log(req.body);
   //const result = await pool.query(`insert into salesforce.lead(firstname, lastname, mobilephone, postalcode, date_of_birth__c, email, company) Values ('${req.body.txtFirstName}', '${req.body.txtLastName}', '${req.body.txtPhoneNumber}', '${req.body.txtZipDC}', '${req.body.txtDOB}', '${req.body.txtEmail}', 'Invisalign')`);
-  pool.query(`insert into salesforce.lead(firstname, lastname, mobilephone, postalcode, date_of_birth__c, email, company) Values ('${req.body.txtFirstName}', '${req.body.txtLastName}', '${req.body.txtPhoneNumber}', '${req.body.txtZipDC}', '${req.body.txtDOB}', '${req.body.txtEmail}', 'Invisalign')`, (err, res) => {
+  pool.query(`INSERT INTO salesforce.lead(firstname, lastname, mobilephone, postalcode, date_of_birth__c, email, company) VALUES ('${req.body.txtFirstName}', '${req.body.txtLastName}', '${req.body.txtPhoneNumber}', '${req.body.txtZipDC}', '${req.body.txtDOB}', '${req.body.txtEmail}', 'Invisalign')`, (err, res) => {
     if (err) {
         console.log("Error - Failed to insert data into leads");
         console.log(err);
