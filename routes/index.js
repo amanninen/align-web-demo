@@ -19,20 +19,22 @@ const client = new Client({
   }
 });
 
-client.connect();
 
-client.query('SELECT firstname,lastname FROM salesforce.lead;', (err, res) => {
-  if (err) throw err;
-  for (let row of res.rows) {
-    console.log(JSON.stringify(row));
-  }
-  client.end();
-});
 
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
   console.log('routing in index');
+  client.connect();
+
+  client.query('SELECT firstname,lastname FROM salesforce.lead;', (err, res) => {
+    if (err) throw err;
+      for (let row of res.rows) {
+        console.log(JSON.stringify(row));
+      }
+    client.end();
+  });  
+  
   res.render('locator', {success: false});
 });
 
