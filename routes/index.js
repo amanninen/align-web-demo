@@ -27,10 +27,10 @@ router.get('/', function(req, res, next) {
 
 /* form handling */
 router.post('/leadform', async function (req, res, next) {
-  console.log('routing on post form with updated code');
+  console.log('routing on post async form');
   console.log(req.body);
   //const result = await pool.query(`insert into salesforce.lead(firstname, lastname, mobilephone, postalcode, date_of_birth__c, email, company) Values ('${req.body.txtFirstName}', '${req.body.txtLastName}', '${req.body.txtPhoneNumber}', '${req.body.txtZipDC}', '${req.body.txtDOB}', '${req.body.txtEmail}', 'Invisalign')`);
-  pool.query(`INSERT INTO salesforce.lead(FirstName,LastName,Company)VALUES($1,$2,$3)`, 
+  await pool.query(`INSERT INTO salesforce.lead(FirstName,LastName,Company)VALUES($1,$2,$3)`, 
             ['FirstName','LastName','Invisaling'], (err, res) => {
     if (err) {
         console.log("Error - Failed to insert data into Leads");
