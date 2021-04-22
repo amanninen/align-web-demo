@@ -1,5 +1,5 @@
 var express = require('express');
-//const { Pool } = require('pg');
+const { Pool } = require('pg');
 const { DATABASE_URL } = process.env;
 
 var router = express.Router();
@@ -10,6 +10,7 @@ var router = express.Router();
 //    rejectUnauthorized: false
 //  }
 //});
+
 const { Client } = require('pg');
 
 const client = new Client({
@@ -28,11 +29,14 @@ router.get('/', function(req, res, next) {
   client.connect();
 
   client.query('SELECT firstname,lastname FROM salesforce.lead;', (err, res) => {
-    //if (err) throw err;
-    console.log('dadaa!!!')
+    if (err) {
+      console.log('widd');
+      console.log(err.stack);
+    } else {  
       for (let row of res.rows) {
         console.log(JSON.stringify(row));
       }
+    }
     client.end();
   });  
   
