@@ -26,7 +26,7 @@ router.get('/', function(req, res, next) {
     }
   });*/
   
-  pg.connect(process.env.DATABASE_URL, function (err, conn, done) {
+  pool.connect(process.env.DATABASE_URL, function (err, conn, done) {
     if (err) console.log(err);
     
     conn.query(`INSERT INTO salesforce.lead(FirstName,LastName,Company)VALUES($1,$2,$3);`, 
