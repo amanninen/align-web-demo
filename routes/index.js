@@ -1,4 +1,7 @@
 var express = require('express');
+
+var pg = require('pg');
+
 const { Pool } = require('pg');
 const { DATABASE_URL } = process.env;
 
@@ -15,13 +18,26 @@ const pool = new Pool({
 router.get('/', function(req, res, next) {
   console.log('routing again index');
 
-  pool.query(`INSERT INTO salesforce.lead(FirstName,LastName,Company)VALUES($1,$2,$3);`, 
+  /*pool.query(`INSERT INTO salesforce.lead(FirstName,LastName,Company)VALUES($1,$2,$3);`, 
             ['Ari-Pekka','Manninen','Invisaling'], (err, res) => {
     if (err) {
         console.log("Error - Failed to insert data into ccLeads");
         console.log(err);
     }
+  });*/
+  
+  pg.connect(process.env.DATABASE_URL, function (err, conn, done) {
+    if (err) console.log(err);
+    
+    conn.query(`INSERT INTO salesforce.lead(FirstName,LastName,Company)VALUES($1,$2,$3);`, 
+            ['Ari-Pekka','Manninen','Invisaling'], (err, res) => {
+        if (err) {
+            console.log("Error - Failed to insert data into Leads" + "");
+            console.log(err);
+        }
+      });
   });
+  
   res.render('locator', {success: false});
 });
 
