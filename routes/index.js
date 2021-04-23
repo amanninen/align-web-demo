@@ -51,35 +51,21 @@ router.post('/leadform', async function (req, res, next) {
 
 router.get('/update', function(req, res, next) {
 
-  pg.connect(process.env.DATABASE_URL, function (err, conn, done) {
-      // watch for any connect issues
-      if (err) console.log(err);
-      conn.query(
-        `INSERT INTO salesforce.lead(FirstName,LastName,Company)VALUES($1,$2,$3);`, 
-        ['Ari-Pekka','Manninen','Invisaling'],
-          function(err, result) {
-              if (err != null || result.rowCount == 0) {
-                conn.query(`INSERT INTO salesforce.lead(FirstName,LastName,Company)VALUES($1,$2,$3);`, 
-                ['Ari-Pekka','Manninen','Invisaling'],
-                function(err, result) {
-                  done();
-                  if (err) {
-                      res.status(400).json({error: err.message});
-                  }
-                  else {
-                      // this will still cause jquery to display 'Record updated!'
-                      // eventhough it was inserted
-                      res.json(result);
-                  }
-                });
-              }
-              else {
-                  done();
-                  res.json(result);
-              }
-          }
-      );
+  pool.connect(function (err, client, done) {
+    if (err) {
+        console.log("Can not connect to the DB" + err);
+    }
+    client.query('SELECT * FROM salesforce.lead;', function (err, result) {
+         done();
+         if (err) {
+             console.log(err);
+             res.status(400).send(err);
+         }
+         console.log(result.rows);
+         res.status(200).send(result.rows);
+    })
   });
+
   res.render('locator', { success: true });
 });
 
