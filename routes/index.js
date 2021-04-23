@@ -52,10 +52,11 @@ router.post('/leadform', async function (req, res, next) {
 router.get('/update', function(req, res, next) {
 
   pool.connect(function (err, client, done) {
+    console.log(client.DATABASE_URL);
     if (err) {
         console.log("Can not connect to the DB" + err);
     }
-    client.query('SELECT * FROM salesforce.lead;', function (err, result) {
+    client.query(`SELECT * FROM salesforce.lead;`, function (err, result) {
          done();
          if (err) {
              console.log(err);
